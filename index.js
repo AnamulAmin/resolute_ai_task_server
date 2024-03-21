@@ -9,15 +9,7 @@ const { Server } = require("socket.io");
 const app = express();
 const server = http.createServer(app);
 app.use(cookieParser());
-app.use(cors( {
-    origin: [
-      "http://localhost:3000",
-      "https://resolute-ai-task.vercel.app",
-      "https://resolute-ai-task-git-main-aadelbanat8991-gmailcom.vercel.app",
-    ],
-    methods: ["GET,HEAD,PUT,PATCH,POST,DELETE"],
-  }
-));
+app.use(cors());
 app.use(express.json());
 
 const io = new Server(server);
