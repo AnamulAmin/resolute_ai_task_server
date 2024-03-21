@@ -67,7 +67,7 @@ io.on("connection", (socket) => {
 
       if (result.acknowledged) {
         const conversation = await conversationCollection.find().toArray();
-        socket.broadcast.emit("conversation", conversation);
+        socket.emit("conversation", conversation);
       }
     } catch (error) {
       console.log(error);
