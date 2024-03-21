@@ -12,16 +12,7 @@ app.use(cookieParser());
 app.use(cors());
 app.use(express.json());
 
-const io = new Server(server, {
-  cors: {
-    origin: [
-      "http://localhost:3000",
-      "https://resolute-ai-task.vercel.app",
-      "https://resolute-ai-task-git-main-aadelbanat8991-gmailcom.vercel.app",
-    ],
-    methods: ["GET", "POST"],
-  },
-});
+const io = new Server(server);
 
 const port = process.env.PORT || 5000;
 
