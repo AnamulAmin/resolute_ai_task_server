@@ -1,14 +1,13 @@
 const { MongoClient, ServerApiVersion } = require("mongodb");
 const express = require("express");
 const cors = require("cors");
-var cookieParser = require("cookie-parser");
 require("dotenv").config();
 const http = require("http");
 const { Server } = require("socket.io");
 
 const app = express();
 const server = http.createServer(app);
-app.use(cookieParser());
+
 app.use(cors());
 app.use(express.json());
 
