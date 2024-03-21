@@ -14,7 +14,11 @@ app.use(express.json());
 
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:3000"],
+    origin: [
+      "http://localhost:3000",
+      "https://resolute-ai-task.vercel.app",
+      "https://resolute-ai-task-git-main-aadelbanat8991-gmailcom.vercel.app",
+    ],
     methods: ["GET", "POST"],
   },
 });
