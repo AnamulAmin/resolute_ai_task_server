@@ -17,15 +17,14 @@ const io = new Server(server, {
       "http://localhost:3000",
       "https://resolute-ai-task.vercel.app",
     ],
-    methods: ["GET,HEAD,PUT,PATCH,POST,DELETE"],
+    methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
   },
 });
 
 const port = process.env.PORT || 5000;
 
-const uri = `mongodb+srv://${process.env.USER_NAME}:${process.env.USER_PASS}@cluster0.otazdf5.mongodb.net/?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${process.env.USER_NAME}:${process.env.USER_PASS}@cluster0.otazdf5.mongodb.net`;
 
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
@@ -36,28 +35,37 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
+    await client.connect();
     console.log(
-      "Pinged your deployment. You successfully connected to MongoDB!"
+      "Connected to MongoDB!"
     );
-  } finally {
+  } catch (err) {
+    console.error(err);
+    process.exit(1);
   }
 }
+
 run().catch(console.dir);
 
 const db = client.db("myShopDB");
 const conversationCollection = db.collection("conversation");
 
 app.get("/", async (req, res) => {
-  res.send("server is running");
+  res.send("Server is running");
 });
 
 app.get("/get_conversation", async (req, res) => {
-  const conversation = await conversationCollection.find().toArray();
-  res.status(200).send(conversation);
+  try {
+    const conversation = await conversationCollection.find().toArray();
+    res.status(200).send(conversation);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server Error");
+  }
 });
 
 io.on("connection", (socket) => {
-  console.log("a user connected");
+  console.log("A user connected");
 
   socket.on("message", async (data) => {
     try {
@@ -65,14 +73,14 @@ io.on("connection", (socket) => {
 
       if (result.acknowledged) {
         const conversation = await conversationCollection.find().toArray();
-        socket.emit("conversation", conversation);
+        io.emit("conversation", conversation);
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   });
 });
 
 server.listen(port, () => {
-  console.log(`server listening on ${port}`);
+  console.log(`Server listening on port ${port}`);
 });
