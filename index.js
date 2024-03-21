@@ -36,11 +36,9 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     await client.connect();
-    console.log(
-      "Connected to MongoDB!"
-    );
+    console.log("Connected to MongoDB!");
   } catch (err) {
-    console.error(err);
+    console.error("Failed to connect to MongoDB:", err);
     process.exit(1);
   }
 }
@@ -59,7 +57,7 @@ app.get("/get_conversation", async (req, res) => {
     const conversation = await conversationCollection.find().toArray();
     res.status(200).send(conversation);
   } catch (error) {
-    console.error(error);
+    console.error("Error fetching conversation:", error);
     res.status(500).send("Server Error");
   }
 });
@@ -76,7 +74,7 @@ io.on("connection", (socket) => {
         io.emit("conversation", conversation);
       }
     } catch (error) {
-      console.error(error);
+      console.error("Error handling message:", error);
     }
   });
 });
