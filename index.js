@@ -11,7 +11,15 @@ const server = http.createServer(app);
 app.use(cors());
 app.use(express.json());
 
-const io = new Server(server);
+const io = new Server(server, {
+  cors: {
+    origin: [
+      "http://localhost:3000",
+      "https://resolute-ai-task.vercel.app",
+    ],
+    methods: ["GET,HEAD,PUT,PATCH,POST,DELETE"],
+  },
+});
 
 const port = process.env.PORT || 5000;
 
