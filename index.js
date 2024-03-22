@@ -22,6 +22,7 @@ const io = new Server(server, {
     origin: [
       "http://localhost:3000",
       "https://resolute-ai-task.vercel.app",
+        "https://resolute-ai-task.vercel.app/socket.io"
     ],
     methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
   },
