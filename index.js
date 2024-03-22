@@ -10,6 +10,12 @@ const server = http.createServer(app);
 
 app.use(cors());
 app.use(express.json());
+// Middleware to enable CORS
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "https://resolute-ai-task.vercel.app");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
 
 const io = new Server(server, {
   cors: {
